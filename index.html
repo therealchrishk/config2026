@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Config 2026 — Chris & Theo</title>
+<meta name="description" content="Personal session schedule for Config 2026, San Francisco — Chris & Theo." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --surface-2: #f0ede5;
+    --ink: #14110d;
+    --ink-dim: #4d473f;
+    --ink-faint: #847f76;
+    --line: rgba(20, 17, 13, 0.14);
+    --line-strong: rgba(20, 17, 13, 0.40);
+    --chris: #c2410c;
+    --theo: #1d4ed8;
+    --together: #14110d;
+    --display: "Schibsted Grotesk", system-ui, sans-serif;
+    --body: "Hanken Grotesk", system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17.6px;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- NAV (solid, with day switcher) ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .nav-inner {
+    max-width: 1080px; margin: 0 auto; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: 0.14em; }
+  .brand span { color: var(--ink-faint); }
+
+  .daynav { display: none; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 100px; }
+  nav.scrolled .daynav { display: flex; animation: fadeIn .25s ease; }
+  .daybtn {
+    font-family: var(--body); font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+    border: none; background: transparent; color: var(--ink-dim);
+    padding: 7px 15px; border-radius: 100px; cursor: pointer; transition: all .2s ease; white-space: nowrap;
+  }
+  .daybtn:hover { color: var(--ink); }
+  .daybtn.active { background: var(--ink); color: #fff; }
+
+  .filters { display: flex; gap: 6px; }
+  .filters button {
+    font-family: var(--body); font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+    background: transparent; color: var(--ink-dim);
+    border: 1px solid var(--line-strong); border-radius: 100px;
+    padding: 7px 15px; cursor: pointer; transition: all .22s ease;
+  }
+  .filters button:hover { color: var(--ink); border-color: var(--ink); }
+  .filters button.active { color: #fff; background: var(--ink); border-color: var(--ink); }
+  .filters button[data-person="chris"].active { background: var(--chris); border-color: var(--chris); }
+  .filters button[data-person="theo"].active { background: var(--theo); border-color: var(--theo); }
+
+  /* ---------- HERO ---------- */
+  header.hero { padding: 88px 0 44px; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 26px; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(66px, 13vw, 168px); line-height: 0.9; letter-spacing: -0.035em;
+  }
+  .hero h1 em { font-style: normal; color: var(--chris); }
+  .hero .meta-row {
+    display: flex; flex-wrap: wrap; gap: 28px; margin-top: 36px;
+    padding-top: 26px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-dim);
+  }
+  .hero .meta-row b { color: var(--ink); font-weight: 600; }
+  .attendees { display: flex; gap: 22px; }
+  .att { display: flex; align-items: center; gap: 9px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.chris { background: var(--chris); }
+  .dot.theo { background: var(--theo); }
+  .dot.together { background: var(--together); }
+
+  /* ---------- LEGEND ---------- */
+  .legend { margin-top: 30px; display: flex; flex-direction: column; gap: 16px; }
+  .legend-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+  .legend-row .lbl { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); width: 86px; }
+  .legend .person { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+
+  .cat {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 5px 11px 5px 9px; border: 1px solid var(--line-strong);
+    border-radius: 100px; color: var(--ink); background: var(--surface); white-space: nowrap;
+  }
+  .cat svg { width: 15px; height: 15px; flex: none; }
+
+  /* ---------- HERO DAY TABS ---------- */
+  .daytabs { display: flex; margin: 46px 0 0; border-bottom: 1px solid var(--line-strong); }
+  .daytab { flex: 1; background: transparent; border: none; cursor: pointer; text-align: left; padding: 18px 4px; color: var(--ink-faint); border-bottom: 3px solid transparent; margin-bottom: -1px; transition: color .22s ease, border-color .22s ease; font-family: var(--body); }
+  .daytab .d-num { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; color: var(--ink-faint); transition: color .22s ease; }
+  .daytab .d-lab { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 8px; }
+  .daytab.active { color: var(--ink); border-color: var(--ink); }
+  .daytab.active .d-num { color: var(--ink); }
+  .daytab:hover .d-num { color: var(--ink); }
+
+  /* ---------- DAY HEADING ---------- */
+  .day-title { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 5vw, 42px); letter-spacing: -0.02em; margin: 42px 0 4px; }
+  .day-sub { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+  .day-note { font-size: 21px; font-weight: 500; line-height: 1.45; color: var(--ink-dim); margin: 22px 0 28px; max-width: 62ch; }
+  .day-note b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- SCHEDULE ---------- */
+  main { padding-bottom: 110px; }
+  .slot { display: grid; grid-template-columns: 104px 1fr; gap: 22px; padding: 22px 0; border-bottom: 1px solid var(--line); animation: rise .5s ease both; }
+  .slot-time { font-size: 14px; font-weight: 600; color: var(--ink-dim); padding-top: 4px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .slot-cards { display: grid; gap: 14px; }
+  .slot-cards.split { grid-template-columns: 1fr 1fr; }
+
+  .card {
+    border: 1px solid var(--line); border-left-width: 4px; background: var(--surface);
+    padding: 18px 20px; border-radius: 4px; box-shadow: 0 1px 2px rgba(20,17,13,0.05);
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s, box-shadow .3s, opacity .3s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: 0 12px 28px rgba(20,17,13,0.13); }
+  .card .who { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 11px; }
+  .card .title { font-family: var(--display); font-weight: 700; font-size: 23px; line-height: 1.14; letter-spacing: -0.015em; margin-bottom: 9px; color: var(--ink); }
+  .card .org { color: var(--ink-dim); font-size: 13.5px; margin-bottom: 14px; }
+  .card .org b { color: var(--ink); font-weight: 600; }
+  .cats { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 13px; }
+  .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .stage { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--line-strong); padding: 5px 11px; border-radius: 100px; }
+
+  .card.chris { border-left-color: var(--chris); }
+  .card.chris .who { color: var(--chris); }
+  .card.theo  { border-left-color: var(--theo); }
+  .card.theo .who { color: var(--theo); }
+  .card.together { border-left-color: var(--together); background: linear-gradient(180deg, rgba(20,17,13,0.045), rgba(20,17,13,0.012)); }
+  .card.together .who { color: var(--together); }
+  .card.break { border: 1px dashed var(--line-strong); border-left: 4px dashed var(--line-strong); background: transparent; box-shadow: none; }
+  .card.break .title { color: var(--ink-dim); font-size: 19px; margin-bottom: 0; }
+  .card.empty { border: 1px dashed var(--line-strong); background: transparent; box-shadow: none; display: flex; align-items: center; min-height: 96px; }
+  .card.empty .who { color: var(--theo); margin: 0; }
+  .card.empty .free { color: var(--ink-faint); font-family: var(--display); font-size: 18px; margin-left: 12px; }
+
+  .skippable { color: var(--ink-faint); font-size: 12.5px; font-style: italic; }
+
+  body[data-filter="chris"] .card.theo,
+  body[data-filter="theo"]  .card.chris { opacity: 0.16; filter: saturate(0); }
+  body[data-filter="chris"] .card.theo:hover,
+  body[data-filter="theo"]  .card.chris:hover { opacity: 0.5; }
+
+  footer { border-top: 1px solid var(--line-strong); padding: 38px 0 80px; font-size: 12.5px; color: var(--ink-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+  footer a:hover { color: var(--ink); }
+
+  /* ---------- BACK TO TOP ---------- */
+  #toTop {
+    position: fixed; bottom: 26px; right: 26px; z-index: 200;
+    width: 50px; height: 50px; border-radius: 50%;
+    border: 1px solid var(--ink); background: var(--ink); color: #fff;
+    cursor: pointer; display: grid; place-items: center;
+    opacity: 0; transform: translateY(14px); pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease, background .2s ease, border-color .2s ease;
+    box-shadow: 0 10px 24px rgba(20,17,13,0.28);
+  }
+  #toTop svg { width: 20px; height: 20px; }
+  #toTop.visible { opacity: 1; transform: none; pointer-events: auto; }
+  #toTop:hover { background: var(--chris); border-color: var(--chris); }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 720px) {
+    body { font-size: 16.5px; }
+    .nav-inner { gap: 12px; }
+    .daynav { order: 3; width: 100%; justify-content: space-between; }
+    .daybtn { flex: 1; text-align: center; }
+    .slot { grid-template-columns: 1fr; gap: 10px; }
+    .slot-time { padding-top: 0; color: var(--ink); }
+    .slot-cards.split { grid-template-columns: 1fr; }
+    .hero { padding: 48px 0 32px; }
+    .legend-row .lbl { width: auto; }
+    #toTop { bottom: 18px; right: 18px; width: 46px; height: 46px; }
+  }
+</style>
+</head>
+<body data-filter="all">
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">CONFIG <span>/</span> 2026</div>
+      <div class="daynav" id="daynav">
+        <button class="daybtn active" data-day="24">Jun 24</button>
+        <button class="daybtn" data-day="25">Jun 25</button>
+        <button class="daybtn" data-day="23">Jun 23</button>
+      </div>
+      <div class="filters">
+        <button data-person="all" class="active">All</button>
+        <button data-person="chris">Chris</button>
+        <button data-person="theo">Theo</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">San Francisco · Moscone</div>
+      <h1>Config<br><em>2026.</em></h1>
+      <div class="meta-row">
+        <div>June 23 – 25 · <b>3 days</b></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-row">
+          <span class="lbl">Who</span>
+          <span class="person"><span class="dot chris"></span> Chris</span>
+          <span class="person"><span class="dot theo"></span> Theo</span>
+          <span class="person"><span class="dot together"></span> Together</span>
+        </div>
+        <div class="legend-row" id="cat-legend">
+          <span class="lbl">Focus</span>
+        </div>
+      </div>
+
+      <div class="daytabs" id="daytabs">
+        <button class="daytab active" data-day="24"><span class="d-num">24</span><span class="d-lab">Tue · Main</span></button>
+        <button class="daytab" data-day="25"><span class="d-num">25</span><span class="d-lab">Wed · Main</span></button>
+        <button class="daytab" data-day="23"><span class="d-num">23</span><span class="d-lab">Mon · Arrival</span></button>
+      </div>
+    </header>
+
+    <main id="schedule"></main>
+
+    <footer>
+      <div>Personal schedule · built for Chris &amp; Theo</div>
+      <div>Source: <a href="https://config.figma.com/san-francisco/agenda/" target="_blank" rel="noopener">config.figma.com</a></div>
+    </footer>
+  </div>
+
+  <button id="toTop" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16V5M5 10l5-5 5 5"/></svg>
+  </button>
+
+<script>
+const ICONS = {
+  ai:    '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0.6l1.55 5.05L14.6 8l-5.05 1.55L8 15.4 6.45 9.55 1.4 8l5.05-2.35z"/></svg>',
+  craft: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12.4 1.9l1.7 1.7-8 8L3 13l1.4-3.1z"/><path d="M10.6 3.7l1.7 1.7"/></svg>',
+  big:   '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="2.4" width="9.6" height="11.2" rx="0.6"/><path d="M5.6 5h1.6M8.8 5h1.6M5.6 7.6h1.6M8.8 7.6h1.6M5.6 10.2h1.6M8.8 10.2h1.6"/></svg>',
+  tech:  '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.4 4.4L1.8 8l3.6 3.6"/><path d="M10.6 4.4L14.2 8l-3.6 3.6"/></svg>'
+};
+const LABELS = { ai: "AI workflow", craft: "Craft", big: "Big co", tech: "Tech heavy" };
+
+const DATA = {
+  "24": {
+    title: "Tuesday, June 24", sub: "Main sessions",
+    note: "The main session day. <b>Chris</b> runs a back-to-back AI-workflow track in the afternoon; <b>Theo</b> covers the craft and design-system talks in parallel.",
+    slots: [
+      { time: "9:00 – 10:20", together: { title: "Opening keynote · Figma product launch", org: "Dylan Field, Figma", stage: "Main stage", cats: [] } },
+      { time: "10:35 – 10:55", together: { title: "The rules are the art: creating with AI", org: "Holly Herndon", stage: "Main stage", cats: ["ai"] } },
+      { time: "11:10 – 11:30",
+        chris: { title: "Ready for the world", org: "Vicki Tan", stage: "Mezzanine", cats: ["craft"] },
+        theo:  { title: "Google Workspace session", org: "<b>Google</b> · topic TBA", stage: "Maker", cats: ["big"] } },
+      { time: "11:30 – 11:50",
+        chris: { title: "Dimensional shift: sculpting in Figma Draw", org: "Josh McKenna", stage: "Mezzanine", cats: ["craft"] },
+        theo:  { title: "Beyond design systems: designing for robots & seniors", org: "Norbert Health", stage: "Level 2", cats: ["ai"] } },
+      { time: "11:50 – 12:10",
+        chris: { title: "Content systems for AI product workflows", org: "Ditto", stage: "Maker", cats: ["ai"] },
+        theo:  { title: "Out of sync, on purpose: desktop design after mobile won", org: "<b>Spotify</b>", stage: "Mezzanine", cats: ["craft","big"] } },
+      { time: "12:10 – 12:30", together: { title: "Writing for humans in an AI world", org: "<b>Anthropic</b>", stage: "Mezzanine", cats: ["ai","big"] } },
+      { time: "12:30 – 12:50",
+        chris: { title: "Be the director: how stage craft informs product craft", org: "<b>OpenAI</b>", stage: "Level 2", cats: ["craft","big"] },
+        theo:  { title: "From concept to confidence with Dscout AI", org: "Dscout · <span class='skippable'>vendor talk — skippable</span>", stage: "Maker", cats: ["ai"] } },
+      { time: "~1:00 – 1:45", breakItem: { title: "Lunch · Config Commons" } },
+      { time: "1:50 – 2:10",
+        chris: { title: "Hacking AI for creative operations at scale", org: "Systematiq AI", stage: "Maker", cats: ["ai"] },
+        theo:  { title: "Patterns for restarting the world", org: "Polymatters", stage: "Mezzanine", cats: ["craft","tech"] } },
+      { time: "2:30 – 2:50",
+        chris: { title: "How structured thinking gives your AI superpowers", org: "<b>Atlassian</b>", stage: "Maker", cats: ["ai","big"] },
+        theo:  { title: "The metacognitive design loop", org: "Epsilon / Publicis · 2:35", stage: "Level 2", cats: ["ai","tech"] } },
+      { time: "2:55 – 3:15",
+        chris: { title: "Your best practices are trapped in your head — and your AI has no idea", org: "<b>Microsoft</b>", stage: "Level 2", cats: ["ai","big"] },
+        theo:  { title: "How One North brought ESPN's design system into the majors", org: "<b>ESPN</b> · 3:05", stage: "Mezzanine", cats: ["craft","big"] } },
+      { time: "4:00 – 5:00", together: { title: "Closing keynotes", org: "TBA", stage: "Main stage", cats: [] } }
+    ]
+  },
+  "25": {
+    title: "Wednesday, June 25", sub: "Main sessions",
+    note: "Wednesday locks in the two big AI-workflow anchors — Dropbox's “The canvas is not dead” and Meta's “AI gold,” the first design system built in Figma Make.",
+    slots: [
+      { time: "9:00 – 10:00", together: { title: "Opening keynotes · Death of the finished state + Designing math", org: "Special Offer, Inc. · 3Blue1Brown", stage: "Main stage", cats: [] } },
+      { time: "10:15 – 10:35",
+        chris: { title: "The agentic design-to-code loop", org: "<b>Google</b>", stage: "Maker", cats: ["ai","big","tech"] },
+        theo:  { title: "10 years of daily sketching", org: "MIT Media Lab · 10:20", stage: "Mezzanine", cats: ["craft"] } },
+      { time: "10:50 – 11:10",
+        chris: { title: "Dense by design", org: "mu.design", stage: "Level 2", cats: ["craft"] },
+        theo:  { title: "Building real-time user insights into your workflow", org: "HeyMarvin", stage: "Maker", cats: [] } },
+      { time: "11:10 – 11:30",
+        chris: { title: "Usernames on Instagram: a craft fix became an identity crisis", org: "<b>Instagram (Meta)</b>", stage: "Level 2", cats: ["craft","big"] },
+        theo:  { title: "AI will upend your process — for the better", org: "Bitovi · 11:25", stage: "Maker", cats: ["ai"] } },
+      { time: "12:45 – 1:05",
+        chris: { title: "The canvas is not dead", org: "<b>Dropbox</b>", stage: "Mezzanine", cats: ["ai","big"] },
+        theo:  { title: "Everyone's still eating: building Notion's design system", org: "<b>Notion</b> · 12:50", stage: "Level 2", cats: ["craft","big"] } },
+      { time: "1:10 – 1:30",
+        chris: { title: "Preparing Rocket for the AI era", org: "<b>Rocket</b>", stage: "Level 2", cats: ["ai","big"] },
+        theo:  { title: "In praise of dark mode", org: "Attio", stage: "Community", cats: ["craft"] } },
+      { time: "1:30 – 1:50",
+        chris: { title: "AI gold: the first design system in Figma Make", org: "<b>Meta</b>", stage: "Level 2", cats: ["ai","big"] },
+        theo:  { title: "Designing brand intelligence: from rules to expression", org: "Let's Jetty · 1:40", stage: "Community", cats: ["ai","craft"] } },
+      { time: "2:05 – 2:25",
+        chris: { title: "Own the loop: how designers & researchers win with AI evals", org: "Figma", stage: "Mezzanine", cats: ["ai"] },
+        theo:  { title: "Design for the future of apps", org: "<b>Google</b> · 2:25", stage: "Mezzanine", cats: ["ai","big","tech"] } },
+      { time: "2:45 – 3:05",
+        chris: { title: "Designing money: a trustworthy brand in the age of AI", org: "<b>Plaid</b>", stage: "Mezzanine", cats: ["ai","craft","big"] },
+        theo:  { title: "Design systems anarchy", org: "Lauren LoPrete · 2:55", stage: "Level 2", cats: ["craft","ai"] } },
+      { time: "3:05 – 3:25",
+        chris: { title: "Legibility by design", org: "<b>Waymo</b>", stage: "Mezzanine", cats: ["ai","big"] },
+        theo:  { empty: true } },
+      { time: "4:00 – 5:00", together: { title: "Closing keynotes", org: "TBA", stage: "Main stage", cats: [] } }
+    ]
+  },
+  "23": {
+    title: "Monday, June 23", sub: "Arrival",
+    note: "No sessions on Monday — it's arrival day. Go together to collect badges (bring government ID) and swing by Config Commons to grab swag and ease in.",
+    slots: [
+      { time: "9:00 – 7:00", together: { title: "Badge pickup", org: "Bring valid government ID", stage: "Moscone North", cats: [] } },
+      { time: "12:00 – 7:00", together: { title: "Config Commons — community hangout", org: "Badges · swag · warm-up conversations", stage: "Config Commons", cats: [] } }
+    ]
+  }
+};
+
+function catBadge(cat){ return `<span class="cat">${ICONS[cat]}${LABELS[cat]}</span>`; }
+function catsHTML(s){
+  if (!s.cats || !s.cats.length) return "";
+  return `<div class="cats">${s.cats.map(catBadge).join("")}</div>`;
+}
+
+function sessionCard(s, kind){
+  if (s.empty){
+    return `<div class="card empty theo"><span class="who">Theo</span><span class="free">Free — recap with Chris</span></div>`;
+  }
+  const label = kind === "together" ? "Together" : kind === "chris" ? "Chris" : "Theo";
+  return `
+    <div class="card ${kind}">
+      <div class="who">${label}</div>
+      <div class="title">${s.title}</div>
+      ${s.org ? `<div class="org">${s.org}</div>` : ""}
+      ${catsHTML(s)}
+      <div class="foot">${s.stage ? `<span class="stage">${s.stage}</span>` : ""}</div>
+    </div>`;
+}
+
+function render(day){
+  const d = DATA[day];
+  let html = `<div class="day-sub">${d.sub}</div><h2 class="day-title">${d.title}</h2><p class="day-note">${d.note}</p>`;
+  d.slots.forEach((slot, i) => {
+    let cards = "", splitClass = "";
+    if (slot.together){
+      cards = sessionCard(slot.together, "together");
+    } else if (slot.breakItem){
+      cards = `<div class="card break"><div class="title">${slot.breakItem.title}</div></div>`;
+    } else {
+      splitClass = " split";
+      cards = sessionCard(slot.chris, "chris") + sessionCard(slot.theo, "theo");
+    }
+    html += `
+      <div class="slot" style="animation-delay:${i*0.04}s">
+        <div class="slot-time">${slot.time}</div>
+        <div class="slot-cards${splitClass}">${cards}</div>
+      </div>`;
+  });
+  document.getElementById("schedule").innerHTML = html;
+}
+
+// category legend
+document.getElementById("cat-legend").insertAdjacentHTML("beforeend",
+  Object.keys(LABELS).map(catBadge).join(""));
+
+// day switcher (hero tabs + nav switcher, kept in sync)
+function setDay(day){
+  document.querySelectorAll("[data-day]").forEach(b => b.classList.toggle("active", b.dataset.day === day));
+  render(day);
+}
+document.querySelectorAll("[data-day]").forEach(btn => {
+  btn.addEventListener("click", () => setDay(btn.dataset.day));
+});
+
+// person filter
+document.querySelectorAll(".filters button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.body.dataset.filter = btn.dataset.person;
+  });
+});
+
+// back to top + reveal nav day switcher once hero tabs scroll away
+const toTop = document.getElementById("toTop");
+const navEl = document.querySelector("nav");
+const heroTabs = document.getElementById("daytabs");
+function onScroll(){
+  toTop.classList.toggle("visible", window.scrollY > 400);
+  navEl.classList.toggle("scrolled", heroTabs.getBoundingClientRect().bottom <= navEl.offsetHeight);
+}
+window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("resize", onScroll);
+onScroll();
+toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+render("24");
+</script>
+</body>
+</html>
