@@ -65,6 +65,7 @@
   .legend-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
   .legend-row .lbl { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); width: 86px; }
   .legend .person { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+  #cat-legend { gap: 8px; }
   .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .dot.chris { background: var(--chris); }
   .dot.theo { background: var(--theo); }
@@ -99,7 +100,7 @@
   .card .title { font-family: var(--display); font-weight: 700; font-size: 23px; line-height: 1.14; letter-spacing: -0.015em; margin-bottom: 9px; color: var(--ink); }
   .card .org { color: var(--ink-dim); font-size: 13.5px; margin-bottom: 14px; }
   .card .org b { color: var(--ink); font-weight: 600; }
-  .cats { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 13px; }
+  .cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
   .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .stage { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--line-strong); padding: 5px 11px; border-radius: 100px; }
   .card.chris { border-left-color: var(--chris); }
@@ -120,11 +121,12 @@
 
   /* ---------- EXTRAS (collapsible "not in plan") ---------- */
   details.extras { margin-top: 30px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface-2); overflow: hidden; }
-  details.extras summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; padding: 18px 20px; font-family: var(--display); font-weight: 700; font-size: 18px; color: var(--ink); }
+  details.extras summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 18px 20px; font-family: var(--display); font-weight: 700; font-size: 18px; color: var(--ink); }
   details.extras summary::-webkit-details-marker { display: none; }
-  .chev { width: 16px; height: 16px; flex: none; transition: transform .2s ease; color: var(--ink-dim); }
+  .chev { width: 16px; height: 16px; flex: none; margin-left: auto; transition: transform .2s ease; color: var(--ink-dim); }
   details.extras[open] .chev { transform: rotate(90deg); }
-  .x-count { margin-left: auto; font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0.04em; color: var(--ink-faint); text-transform: uppercase; }
+  .x-title { flex-shrink: 0; }
+  .x-count { flex-shrink: 0; white-space: nowrap; font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0.04em; color: var(--ink-faint); text-transform: uppercase; }
   .xbody { padding: 4px 20px 14px; }
   .xgroup { margin: 14px 0 4px; }
   .xgroup h4 { font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; font-weight: 700; }
@@ -185,7 +187,7 @@
 
   <div class="wrap">
     <header class="hero">
-      <div class="eyebrow">San Francisco · Moscone</div>
+      <div class="eyebrow">San Francisco · Moscone Center</div>
       <h1>Config<br><em>2026.</em></h1>
       <div class="meta-row">
         <div>June 23 – 25 · <b>3 days</b></div>
@@ -400,9 +402,9 @@ function renderSkipped(d){
   return `
     <details class="extras">
       <summary>
-        <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
-        Skipped sessions
+        <span class="x-title">Skipped sessions</span>
         <span class="x-count">${total} sessions${hiCount ? ` · <b>${hiCount} worth a look</b>` : ""}</span>
+        <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
       </summary>
       <div class="xbody">${groups}</div>
     </details>`;
